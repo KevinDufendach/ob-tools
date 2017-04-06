@@ -107,3 +107,7 @@ packages
 
 # Ignore compiled files #
 build/
+
+# Google Cloud Platform #
+#########################
+config.json
