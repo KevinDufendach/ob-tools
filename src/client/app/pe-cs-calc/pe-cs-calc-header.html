@@ -1,0 +1,8 @@
+<md-toolbar class="md-accent md-hue-3">
+  <div class="md-toolbar-tools">
+    <h1>Probability of C-Section: {{(100 * vm.calculateScore()) | number : 0}}%</h1>
+    <span flex></span>
+    <md-button>References</md-button>
+  </div>
+  <md-progress-linear md-mode="determinate" value="{{100 * vm.calculateScore()}}"></md-progress-linear>
+</md-toolbar>

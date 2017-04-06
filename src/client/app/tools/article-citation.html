@@ -1,0 +1,8 @@
+<span ng-repeat="author in ref.author">{{author.family}} <span
+    ng-repeat="name in refCtrl.splitOnWhitespace(author.given)">{{name | limitTo: 1 | uppercase}}</span>{{ $last ? '. ' : ', '}}
+</span>
+<span>{{ref.title}}.</span>
+<span style="font-style: italic">{{ref['container-title']}}.</span>
+<span>{{ref.issued['date-parts'][0][0]}};{{ref.volume}}({{ref.issue}}):{{ref.page}}.</span>
+<span>{{ref.DOI}},</span>
+<span><a ng-href="https://www.ncbi.nlm.nih.gov/pubmed/?term={{ref.PMID}}">PMID: {{ref.PMID}}</a></span>

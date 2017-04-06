@@ -1,0 +1,258 @@
+<!--<div layout-padding>-->
+  <!--<h1>Calculator to predict induction success in preeclampsia</h1>-->
+
+<!--</div>-->
+<section class="md-whiteframe-3dp calculator">
+  <md-toolbar class="md-accent md-hue-3" layout-padding>
+    <h1>Calculator to predict induction success in preeclampsia</h1>
+    <!--<div class="reference">Reference:-->
+      <!--<article-citation ng-init="ref = vm.references[0]"></article-citation>-->
+    <!--</div>-->
+  </md-toolbar>
+
+  <div hl-sticky="">
+    <md-toolbar class="md-toolbar-tools md-accent md-hue-3">
+      <h2>Probability of C-Section</h2>
+      <div flex></div>
+      <div flex="30">
+        <div class="calculator-result">{{(100 * vm.calculateScore()) | number : 0}}%</div>
+      </div>
+    </md-toolbar>
+    <md-progress-linear md-mode="determinate" value="{{100 * vm.calculateScore()}}"></md-progress-linear>
+  </div>
+
+  <div layout-padding>
+    <h3 flex-gt-sm="20">
+      Bishop Score
+    </h3>
+    <div flex>
+      <div layout="column">
+        <label class="button-group-label">Dilation</label>
+        <div layout="row" flex>
+          <div flex>
+            <md-button class="no-text-transform md-raised horizontal-group"
+                       ng-class="{'first': $first, 'last': $last, 'md-primary': vm.dilationScore == $index}"
+                       ng-repeat="option in vm.dilationOptions"
+                       aria-label="'dilation ' + option"
+                       ng-click="vm.dilationScore = $index"><span ng-bind-html="option|html"></span></md-button>
+          </div>
+          <div flex="20" layout="row" hide show-gt-xs>
+            <span flex></span>
+            <h3>{{vm.dilationScore}}</h3><span flex></span>
+          </div>
+        </div>
+      </div>
+      <div layout="column">
+        <label class="button-group-label">Effacement</label>
+        <div layout="row" flex>
+          <div flex>
+            <md-button class="no-text-transform md-raised horizontal-group"
+                       ng-class="{'first': $first, 'last': $last, 'md-primary': vm.effacementScore == $index}"
+                       ng-repeat="option in vm.effacementOptions"
+                       ng-click="vm.effacementScore = $index"
+                       aria-label="'effacement ' + option"
+                       ng-bind-html="option|html"></md-button>
+
+          </div>
+          <div flex="20" layout="row" hide show-gt-xs>
+            <span flex></span>
+            <h3>{{vm.effacementScore}}</h3><span flex></span>
+          </div>
+        </div>
+      </div>
+      <div layout="column">
+        <label class="button-group-label">Station</label>
+        <div layout="row" flex>
+          <div flex>
+            <md-button class="no-text-transform md-raised horizontal-group"
+                       ng-class="{'first': $first, 'last': $last, 'md-primary': vm.stationScore == $index}"
+                       ng-repeat="option in vm.stationOptions"
+                       ng-click="vm.stationScore = $index"
+                       aria-label="'station ' + option"
+                       ng-bind-html="option|html"></md-button>
+          </div>
+          <div flex="20" layout="row" hide show-gt-xs>
+            <span flex><h3>+</h3></span>
+            <h3>{{vm.stationScore}}</h3><span flex></span>
+          </div>
+        </div>
+      </div>
+      <div hide show-gt-xs>
+        <div layout="row" flex>
+          <span flex></span>
+          <div flex="20">
+            <md-divider></md-divider>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div layout="row" flex>
+          <div flex></div>
+          <h3>Simplified Bishop Score:</h3>
+          <div flex="20">
+            <div layout="row">
+              <span flex></span>
+              <h3>{{vm.getBishop()}}</h3><span flex></span>
+            </div>
+          </div>
+        </div>
+        <div layout="row" flex>
+          <div flex></div>
+          <div flex="20">
+            <div layout="row">
+              <span flex></span>(<span ng-hide="vm.getBishop() > 4">un</span>favorable)<span flex></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <md-divider></md-divider>
+
+  <div layout-padding layout-gt-sm="row">
+    <h3 flex-gt-sm="20">
+      <md-tooltip md-direction="top">Postmenstrual age</md-tooltip>
+      <span>Gestational Age</span>
+    </h3>
+    <div flex>
+      <md-slider-container flex>
+        <md-slider flex min="0" max="44" md-discrete ng-model="vm.ga" aria-label="gestational age slider"></md-slider>
+        <md-input-container>
+          <input type="number" ng-model="vm.ga" min="20" max="44" aria-label="gestational age input">
+        </md-input-container>
+      </md-slider-container>
+      <expandable ng-class="{'expanded': vm.ga < 23 || vm.ga > 41}">
+        <div class="md-warn" style="color: red">Study group included patients of
+          gestational age 23-41
+        </div>
+      </expandable>
+    </div>
+  </div>
+  <md-divider></md-divider>
+  <div layout-padding layout-gt-sm="row">
+    <h3 flex-gt-sm="20">Race</h3>
+    <section layout="column" layout-gt-sm="row" layout-wrap>
+      <md-button class="md-raised horizontal-group first"
+                 ng-class="{'md-primary': vm.race == 'white', 'vertical-group': !vm.$mdMedia('gt-sm')}"
+                 ng-click="vm.race = 'white'">
+        White
+      </md-button>
+      <md-button class="md-raised horizontal-group"
+                 ng-class="{'md-primary': vm.race == 'black', 'vertical-group': !vm.$mdMedia('gt-sm')}"
+                 ng-click="vm.race = 'black'">
+        Black
+      </md-button>
+      <md-button class="md-raised horizontal-group"
+                 ng-class="{'md-primary': vm.race == 'hispanic', 'vertical-group': !vm.$mdMedia('gt-sm')}"
+                 ng-click="vm.race = 'hispanic'">
+        Hispanic
+      </md-button>
+      <md-button class="md-raised  horizontal-group last"
+                 ng-class="{'md-primary': vm.race == 'other', 'vertical-group': !vm.$mdMedia('gt-sm')}"
+                 ng-click="vm.race = 'other'">
+        Other/Unknown
+      </md-button>
+    </section>
+  </div>
+  <md-divider></md-divider>
+  <div layout-padding layout-gt-sm="row">
+    <h3 flex-gt-sm="20">Prior Vaginal Delivery</h3>
+    <md-switch ng-model="vm.prior" aria-label="prior vaginal delivery">
+      {{ vm.prior ? 'Yes' : 'No' }}
+    </md-switch>
+  </div>
+  <md-divider></md-divider>
+  <div layout-padding layout-gt-sm="row">
+    <h3 flex-gt-sm="20">
+      <md-tooltip md-direction="top">Body Mass Index</md-tooltip>
+      <span>BMI</span>
+    </h3>
+    <div flex>
+      <expandable ng-class="{'expanded': calculate}">
+        <div layout="row">
+          <div flex="50">
+            <h3>Height</h3>
+            <md-input-container class="md-block">
+              <label>cm</label>
+              <input type="number" ng-model="vm.cm" step="1" ng-change="vm.dvs.notify('cm')">
+            </md-input-container>
+            <div layout="row" flex>
+              <md-input-container class="md-block">
+                <label>ft</label>
+                <input type="number" ng-model="vm.ft" step="1" ng-change="vm.dvs.notify('ft')">
+              </md-input-container>
+              <md-input-container class="md-block">
+                <label>in</label>
+                <input type="number" ng-model="vm.in" step="1" ng-change="vm.dvs.notify('in')">
+              </md-input-container>
+            </div>
+          </div>
+          <div flex="50">
+            <h3>Weight</h3>
+            <md-input-container class="md-block">
+              <label>kg</label>
+              <input type="number" ng-model="vm.kg" step="1" ng-change="vm.dvs.notify('kg')">
+            </md-input-container>
+            <div layout="row" flex>
+              <md-input-container class="md-block" flex>
+                <label>lbs</label>
+                <input type="number" ng-model="vm.lbs" step="1" ng-change="vm.dvs.notify('lbs')">
+              </md-input-container>
+            </div>
+          </div>
+        </div>
+      </expandable>
+      <div flex>
+        <h3 ng-show="calculate">BMI</h3>
+        <md-button ng-show="!calculate" ng-click="calculate = true">calculate</md-button>
+        <md-slider-container flex>
+          <md-slider flex min="0" max="100" md-discrete ng-model="vm.bmi"
+                     ng-change="vm.dvs.notify('bmi')"
+                     aria-label="body mass index slider"></md-slider>
+          <md-input-container>
+            <input type="number" ng-model="vm.bmi" min="0" max="100"
+                   ng-change="vm.dvs.notify('bmi')"
+                   aria-label="body mass index input">
+          </md-input-container>
+        </md-slider-container>
+        <expandable ng-class="{'expanded': vm.bmi < 15 || vm.bmi > 65}">
+          <div class="md-warn" style="color: red">Study group included patients of
+            BMI 15-65
+          </div>
+        </expandable>
+      </div>
+    </div>
+  </div>
+  <md-divider></md-divider>
+  <div layout-padding layout-gt-sm="row">
+    <h3 flex-gt-sm="20">Clinical Note Template</h3>
+    <div class="mock-textarea" flex contenteditable="true">
+      <p>Based on <span ng-hide="vm.getBishop() > 4">an unfavorable</span><span
+          ng-show="vm.getBishop() > 4">a favorable</span> cervix (simplified bishop score of {{vm.getBishop()}}),
+        postmenstrual age {{vm.ga}} weeks,
+        {{vm.getRaceText(vm.race)}} race,
+        <span ng-show="vm.prior">a prior vaginal delivery,</span>
+        <span ng-hide="vm.prior">no prior vaginal delivery,</span>
+        and a BMI of {{vm.bmi | number : 0}}:<br/>
+        <strong>The probability of this patient requiring a
+          C-Section after induction of labor in the context of pre-eclampsia is {{100 * vm.calculateScore() | number :
+          0}}%.</strong></p>
+      <p class="reference">Reference:
+        <article-citation ng-init="ref = vm.references[0]"></article-citation>
+      </p>
+      <p class="reference">Calculator at <a
+          href="http://webcentral.uc.edu/admin/calc/index.html#!/pe-cs-calc">http://webcentral.uc.edu/admin/calc/index.html#!/pe-cs-calc</a>
+      </p>
+    </div>
+  </div>
+  <md-divider></md-divider>
+  <div layout-padding layout-gt-sm="row">
+    <h3 flex-gt-sm="20">References</h3>
+    <div flex>
+      <ol>
+        <li ng-repeat="ref in vm.references">
+          <article-citation></article-citation>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>

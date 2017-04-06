@@ -1,0 +1,23 @@
+{
+  "name": "uc-obstetrical-tools",
+  "version": "0.0.1",
+  "description": "University of Cincinnati Obstetrical Tools",
+  "authors": [
+    "Kevin Dufendach, MD"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/johnpapa/ng-demos",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {},
+  "dependencies": {
+    "angular-material": "^1.1.1",
+    "angular-route": "^1.6.0",
+    "ngSticky": "^1.8.13"
+  }
+}

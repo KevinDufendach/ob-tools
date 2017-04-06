@@ -1,0 +1,10 @@
+<md-menu>
+  <md-button aria-label="References" ng-click="menuCtrl.openMenu($mdOpenMenu, $event)">
+    <span>References</span>
+  </md-button>
+  <md-menu-content>
+    <md-menu-item ng-repeat="ref in menuCtrl.references">
+      <article-citation></article-citation>
+    </md-menu-item>
+  </md-menu-content>
+</md-menu>
